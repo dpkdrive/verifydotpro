@@ -9,6 +9,7 @@ const productRoutes = require("./routes/productRoutes");
 const app = express();
 // Trust proxy added on 22-Jun-2026 for Railway/Cloudflare rate limiting
 app.set("trust proxy", 1);
+
 const allowedOrigins = (
   process.env.CLIENT_ORIGIN || "http://localhost:5173"
 ).split(",");
@@ -17,9 +18,7 @@ app.use(express.json());
 
 // Serve uploaded product images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
-
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 
