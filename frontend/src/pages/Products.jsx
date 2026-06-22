@@ -24,6 +24,7 @@ export default function Products() {
         setProducts(res.data.products);
       } catch (err) {
         console.error(err);
+        console.log(err)
         setError('Failed to fetch products. Make sure the backend is running.');
       } finally {
         setLoading(false);

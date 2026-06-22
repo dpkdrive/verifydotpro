@@ -5,12 +5,25 @@ const api = axios.create({
   baseURL: "https://verifydotpro-production.up.railway.app/api",
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("adminToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// api.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("adminToken");
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
+api.interceptors.response.use(
+  (response) => {
+    console.log("SUCCESS:", response);
+    return response;
+  },
+  (error) => {
+    console.log("ERROR:", error);
+    console.log("STATUS:", error.response?.status);
+    console.log("DATA:", error.response?.data);
+    return Promise.reject(error);
+  },
+);
 
 export default api;
