@@ -49,11 +49,28 @@ async function registerAdmin(req, res) {
 
 async function loginAdmin(req, res) {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
 
-    console.log("========== LOGIN ==========");
-    console.log("Request Body:", req.body);
+    console.log("======================================");
+    console.log("LOGIN REQUEST RECEIVED");
 
+    // Normalize input
+    email = email?.trim().toLowerCase();
+    password = password?.trim();
+
+    console.log("Request Body:", {
+      email,
+      passwordLength: password ? password.length : 0,
+    });
+
+    if (!email || !password) {
+      console.log("Email or Password missing");
+      return res.status(400).json({
+        message: "Email and password are required.",
+      });
+    }
+
+    // Find admin
     const [rows] = await pool.query("SELECT * FROM admins WHERE email = ?", [
       email,
     ]);
@@ -61,25 +78,64 @@ async function loginAdmin(req, res) {
     console.log("Rows Found:", rows.length);
 
     if (rows.length === 0) {
-      console.log("Email not found");
-      return res.status(401).json({ message: "Invalid email or password." });
+      console.log("Admin not found for email:", email);
+      return res.status(401).json({
+        message: "Invalid email or password.",
+      });
     }
 
     const admin = rows[0];
 
+    console.log("Database Email:", admin.email);
+    console.log("Database Name:", admin.name);
+
+    // Compare password
     const passwordMatches = await bcrypt.compare(password, admin.password);
 
     console.log("Password Match:", passwordMatches);
 
     if (!passwordMatches) {
-      console.log("Password incorrect");
-      return res.status(401).json({ message: "Invalid email or password." });
+      console.log("Password verification failed");
+      return res.status(401).json({
+        message: "Invalid email or password.",
+      });
     }
 
+    console.log("Generating JWT...");
+
+    const token = jwt.sign(
+      {
+        id: admin.id,
+        email: admin.email,
+        name: admin.name,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN || "8h",
+      },
+    );
+
     console.log("Login Success");
+    console.log("======================================");
+
+    return res.json({
+      message: "Login successful.",
+      token,
+      admin: {
+        id: admin.id,
+        name: admin.name,
+        email: admin.email,
+      },
+    });
   } catch (err) {
-    console.error("loginAdmin error:", err);
-    return res.status(500).json({ message: "Server error during login." });
+    console.error("======================================");
+    console.error("LOGIN ERROR");
+    console.error(err);
+    console.error("======================================");
+
+    return res.status(500).json({
+      message: "Server error during login.",
+    });
   }
 }
 
