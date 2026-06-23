@@ -1,6 +1,6 @@
 const mysql = require("mysql2/promise");
 require("dotenv").config();
-console.log("Database Path:", dbPath);
+
 let pool;
 let isSQLite = false;
 
