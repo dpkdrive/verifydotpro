@@ -1,19 +1,23 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
-
+const mysql = require("mysql2/promise");
+require("dotenv").config();
+console.log("Database Path:", dbPath);
 let pool;
 let isSQLite = false;
 
 // Fall back to SQLite if DB_TYPE is sqlite or if no mysql details are configured
-if (process.env.DB_TYPE === 'sqlite' || !process.env.DB_PASSWORD || process.env.DB_PASSWORD === 'your_mysql_password') {
+if (
+  process.env.DB_TYPE === "sqlite" ||
+  !process.env.DB_PASSWORD ||
+  process.env.DB_PASSWORD === "your_mysql_password"
+) {
   isSQLite = true;
 }
 
 if (isSQLite) {
-  console.log('Using SQLite database (fallback/default)...');
-  const { DatabaseSync } = require('node:sqlite');
-  const path = require('path');
-  const dbPath = path.join(__dirname, '../database.sqlite');
+  console.log("Using SQLite database (fallback/default)...");
+  const { DatabaseSync } = require("node:sqlite");
+  const path = require("path");
+  const dbPath = path.join(__dirname, "../database.sqlite");
   const sqliteDb = new DatabaseSync(dbPath);
 
   // Initialize SQLite schema
@@ -59,9 +63,11 @@ if (isSQLite) {
   `);
 
   // Seed products and codes if empty
-  const productCount = sqliteDb.prepare("SELECT COUNT(*) as count FROM products").get();
+  const productCount = sqliteDb
+    .prepare("SELECT COUNT(*) as count FROM products")
+    .get();
   if (productCount.count === 0) {
-    console.log('Seeding dummy products and demo codes...');
+    console.log("Seeding dummy products and demo codes...");
     const insertProduct = sqliteDb.prepare(`
       INSERT INTO products (name, description, price, image_url, demo_code)
       VALUES (?, ?, ?, ?, ?)
@@ -73,35 +79,47 @@ if (isSQLite) {
 
     const dummyProducts = [
       {
-        name: 'AeroPulse',
-        description: 'Premium active noise-cancelling wireless headphones.',
+        name: "AeroPulse",
+        description: "Premium active noise-cancelling wireless headphones.",
         price: 299.99,
-        image_url: 'https://insane-genix.com/wp-content/uploads/2026/02/RP6.png',
-        demo_code: 'AP-ANC-9901'
+        image_url:
+          "https://insane-genix.com/wp-content/uploads/2026/02/RP6.png",
+        demo_code: "AP-ANC-9901",
       },
       {
-        name: 'Leaflet',
-        description: 'Luxury automatic timepiece with sapphire crystal.',
-        price: 1499.00,
-        image_url: 'https://insane-genix.com/wp-content/uploads/2026/02/RP6.png',
-        demo_code: 'CH-ELT-4812'
+        name: "Leaflet",
+        description: "Luxury automatic timepiece with sapphire crystal.",
+        price: 1499.0,
+        image_url:
+          "https://insane-genix.com/wp-content/uploads/2026/02/RP6.png",
+        demo_code: "CH-ELT-4812",
       },
-
     ];
 
     for (const p of dummyProducts) {
-      insertProduct.run(p.name, p.description, p.price, p.image_url, p.demo_code);
-      insertCode.run(p.demo_code, 'Seeded Demo Batch', p.name);
+      insertProduct.run(
+        p.name,
+        p.description,
+        p.price,
+        p.image_url,
+        p.demo_code,
+      );
+      insertCode.run(p.demo_code, "Seeded Demo Batch", p.name);
     }
   }
 
   pool = {
     async query(sql, params) {
       // Handle bulk insert format: VALUES ?
-      if (sql.includes('VALUES ?') && Array.isArray(params) && Array.isArray(params[0]) && Array.isArray(params[0][0])) {
+      if (
+        sql.includes("VALUES ?") &&
+        Array.isArray(params) &&
+        Array.isArray(params[0]) &&
+        Array.isArray(params[0][0])
+      ) {
         const rowsToInsert = params[0];
-        const placeholders = rowsToInsert.map(() => '(?, ?, ?, ?)').join(', ');
-        const newSql = sql.replace('VALUES ?', `VALUES ${placeholders}`);
+        const placeholders = rowsToInsert.map(() => "(?, ?, ?, ?)").join(", ");
+        const newSql = sql.replace("VALUES ?", `VALUES ${placeholders}`);
         const flatParams = rowsToInsert.flat();
         const stmt = sqliteDb.prepare(newSql);
         const result = stmt.run(...flatParams);
@@ -109,7 +127,7 @@ if (isSQLite) {
       }
 
       const trimmedSql = sql.trim().toUpperCase();
-      if (trimmedSql.startsWith('SELECT')) {
+      if (trimmedSql.startsWith("SELECT")) {
         const stmt = sqliteDb.prepare(sql);
         const rows = stmt.all(...(params || []));
         return [rows];
@@ -118,10 +136,10 @@ if (isSQLite) {
         const result = stmt.run(...(params || []));
         return [result];
       }
-    }
+    },
   };
 } else {
-  console.log('Connecting to MySQL database...');
+  console.log("Connecting to MySQL database...");
   pool = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 3306,
@@ -178,12 +196,11 @@ if (isSQLite) {
           demo_code VARCHAR(100)
         )
       `);
-      console.log('MySQL database tables initialized/verified.');
+      console.log("MySQL database tables initialized/verified.");
     } catch (err) {
-      console.error('MySQL database table initialization failed:', err);
+      console.error("MySQL database table initialization failed:", err);
     }
   })();
 }
 
 module.exports = pool;
-

@@ -137,6 +137,11 @@ async function loginAdmin(req, res) {
       message: "Server error during login.",
     });
   }
+
+  const path = require("path");
+
+  console.log("Current Working Directory:", process.cwd());
+  console.log("DB Path:", path.join(__dirname, "../database.sqlite"));
 }
 
 async function getProfile(req, res) {
