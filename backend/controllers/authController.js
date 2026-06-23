@@ -49,6 +49,17 @@ async function registerAdmin(req, res) {
 
 async function loginAdmin(req, res) {
   try {
+    const path = require("path");
+
+    console.log("================================");
+    console.log("LOGIN REQUEST RECEIVED");
+    console.log("Current Working Directory:", process.cwd());
+    console.log(
+      "Expected DB Path:",
+      path.join(__dirname, "../database.sqlite"),
+    );
+    console.log("================================");
+
     let { email, password } = req.body;
 
     console.log("======================================");

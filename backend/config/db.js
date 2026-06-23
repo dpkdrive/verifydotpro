@@ -18,6 +18,11 @@ if (isSQLite) {
   const { DatabaseSync } = require("node:sqlite");
   const path = require("path");
   const dbPath = path.join(__dirname, "../database.sqlite");
+  console.log("================================");
+  console.log("SQLite DB Path:", dbPath);
+  console.log("Current Working Directory:", process.cwd());
+  console.log("================================");
+
   const sqliteDb = new DatabaseSync(dbPath);
 
   // Initialize SQLite schema
