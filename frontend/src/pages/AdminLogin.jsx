@@ -10,17 +10,42 @@ export default function AdminLogin() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setLoading(true);
+  //   try {
+  //     const res = await api.post('/auth/login', form);
+  //     localStorage.setItem('adminToken', res.data.token);
+  //     localStorage.setItem('adminName', res.data.admin.name);
+  //     navigate('/admin/dashboard');
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || 'Login failed.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+
+    setError("");
     setLoading(true);
+
     try {
-      const res = await api.post('/auth/login', form);
-      localStorage.setItem('adminToken', res.data.token);
-      localStorage.setItem('adminName', res.data.admin.name);
-      navigate('/admin/dashboard');
+      const res = await api.post("/auth/login", form);
+
+      console.log("LOGIN RESPONSE", res.data);
+
+      localStorage.setItem("adminToken", res.data.token);
+      localStorage.setItem("adminName", res.data.admin.name);
+
+      console.log("Saved Token:", localStorage.getItem("adminToken"));
+
+      navigate("/admin/dashboard");
+
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed.');
+      console.log(err);
+      setError(err.response?.data?.message || "Login failed.");
     } finally {
       setLoading(false);
     }
