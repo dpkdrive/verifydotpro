@@ -8,8 +8,8 @@ export default function Navbar() {
   const adminName = localStorage.getItem('adminName');
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminName');
+    // localStorage.removeItem('adminToken');
+    // localStorage.removeItem('adminName');
     navigate('/admin/login');
   };
 

@@ -84,9 +84,9 @@ export default function AdminDashboard() {
 
   // ── Auth ────────────────────────────────────────────────────────
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminName');
-    navigate('/admin/login');
+    // localStorage.removeItem('adminToken');
+    // localStorage.removeItem('adminName');
+    // navigate('/admin/login');
   };
 
   // ── Image helpers ────────────────────────────────────────────────
