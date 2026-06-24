@@ -34,7 +34,6 @@ export default function App() {
           path="/admin/dashboard"
           element={<AdminDashboard />}
         />
-
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

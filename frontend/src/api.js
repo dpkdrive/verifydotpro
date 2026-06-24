@@ -9,6 +9,7 @@ api.interceptors.request.use((config) => {
 
   console.log("========================");
   console.log("API:", config.url);
+
   console.log("TOKEN:", token);
 
   if (token) {
