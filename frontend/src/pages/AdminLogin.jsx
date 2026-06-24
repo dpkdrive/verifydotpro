@@ -41,6 +41,7 @@ export default function AdminLogin() {
       alert("Token Saved");
       console.log("Saved Token:", localStorage.getItem("adminToken"));
 
+
       navigate("/admin/dashboard");
 
     } catch (err) {
