@@ -85,9 +85,15 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+
+    if (!token) {
+      console.log("No token found, skipping API calls");
+      return;
+    }
+
     loadProducts();
     loadCodesAndLogs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── Auth ────────────────────────────────────────────────────────
