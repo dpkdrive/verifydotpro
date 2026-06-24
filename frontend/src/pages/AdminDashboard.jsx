@@ -52,7 +52,8 @@ export default function AdminDashboard() {
       const res = await api.get('/products');
       setProducts(res.data.products);
     } catch (err) {
-      if (err.response?.status === 401) handleLogout();
+      if (err.response?.status === 401)
+        handleLogout();
       else setError('Failed to load products.');
     } finally {
       setProductsLoading(false);
@@ -68,10 +69,17 @@ export default function AdminDashboard() {
       ]);
       setCodes(codesRes.data.codes);
       setLogs(logsRes.data.logs);
-    } catch (err) {
-      if (err.response?.status === 401) handleLogout();
-      else setError('Failed to load dashboard data.');
-    } finally {
+    }
+    catch (err) {
+      console.log("Dashboard Error:", err.response?.status);
+      console.log("Dashboard Data:", err.response?.data);
+
+      setError(err.response?.data?.message || "Failed to load dashboard data.");
+
+      // handleLogout();
+    }
+
+    finally {
       setDataLoading(false);
     }
   };
