@@ -17,7 +17,7 @@ app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 // Serve uploaded product images statically
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
