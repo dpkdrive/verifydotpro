@@ -21,13 +21,18 @@ export default function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/test" element={<TestApi />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route
+        {/* <Route
           path="/admin/dashboard"
           element={
             <RequireAuth>
               <AdminDashboard />
             </RequireAuth>
           }
+        /> */}
+
+        <Route
+          path="/admin/dashboard"
+          element={<AdminDashboard />}
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />
