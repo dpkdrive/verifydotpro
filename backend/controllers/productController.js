@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 
 const pool = require('../config/db');
+const cloudinary = require('cloudinary').v2;
 
 
 function generateCode() {
@@ -140,6 +141,7 @@ async function createProduct(req, res) {
   try {
     const { name, description, price, demoCode } = req.body;
     const imageUrl = req.file?.path;
+    const publicId = req.file.filename;
 
     if (!name || !price) {
       return res.status(400).json({ message: 'Product name and price are required.' });
@@ -150,8 +152,8 @@ async function createProduct(req, res) {
     }
 
     const [result] = await pool.query(
-      'INSERT INTO products (name, description, price, image_url, demo_code) VALUES (?, ?, ?, ?, ?)',
-      [name, description || '', Number(price), imageUrl, demoCode || '']
+      'INSERT INTO products (name, description, price, image_url, cloudinary_public_id, demo_code) VALUES (?, ?, ?, ?, ?, ?)',
+      [name, description || '', Number(price), imageUrl, publicId, demoCode || '']
     );
 
     const insertId = result.insertId || result.lastInsertRowid;
@@ -176,6 +178,7 @@ async function createProduct(req, res) {
         description,
         price: Number(price),
         image_url: imageUrl,
+        cloudinary_public_id: publicId,
         demo_code: demoCode || ''
       }
     });
@@ -202,6 +205,8 @@ async function updateProduct(req, res) {
       "SELECT * FROM products WHERE id = ?",
       [id]
     );
+
+    const publicId = req.file.filename;
 
     if (existing.length === 0) {
       return res.status(404).json({
@@ -270,7 +275,8 @@ async function updateProduct(req, res) {
 }
 
 // ---- ADMIN: Delete Product ----
-// ---- ADMIN: Delete Product ----
+const cloudinary = require("../config/cloudinary");
+
 async function deleteProduct(req, res) {
   try {
     const { id } = req.params;
@@ -286,6 +292,25 @@ async function deleteProduct(req, res) {
       });
     }
 
+    const product = existing[0];
+    // Delete image from Cloudinary
+    if (product.cloudinary_public_id) {
+      try {
+        await cloudinary.uploader.destroy(product.cloudinary_public_id);
+
+        console.log(
+          "Cloudinary image deleted:",
+          product.cloudinary_public_id
+        );
+      } catch (cloudErr) {
+        console.error(
+          "Cloudinary delete failed:",
+          cloudErr.message
+        );
+
+        // Continue deleting product even if image deletion fails
+      }
+    }
     // Delete product from database
     await pool.query(
       "DELETE FROM products WHERE id = ?",
