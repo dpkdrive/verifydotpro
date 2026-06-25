@@ -205,38 +205,69 @@ async function updateProduct(req, res) {
       [id]
     );
 
-    const publicId = req.file.filename;
-
     if (existing.length === 0) {
       return res.status(404).json({
         message: "Product not found.",
       });
     }
 
-    // Keep existing image by default
-    let imageUrl = existing[0].image_url;
+    const oldProduct = existing[0];
 
-    // If a new image was uploaded to Cloudinary
+    // Keep existing values by default
+    let imageUrl = oldProduct.image_url;
+    let publicId = oldProduct.cloudinary_public_id;
+
+    // If a new image was uploaded
     if (req.file) {
+
       imageUrl = req.file.path;
+      publicId = req.file.filename;
+
+      // Delete old Cloudinary image
+      if (oldProduct.cloudinary_public_id) {
+        try {
+          await cloudinary.uploader.destroy(
+            oldProduct.cloudinary_public_id
+          );
+
+          console.log(
+            "Old Cloudinary image deleted:",
+            oldProduct.cloudinary_public_id
+          );
+
+        } catch (err) {
+          console.error(
+            "Failed to delete old Cloudinary image:",
+            err.message
+          );
+        }
+      }
     }
 
     await pool.query(
       `UPDATE products
-       SET name = ?, description = ?, price = ?, image_url = ?, demo_code = ?
+       SET
+         name = ?,
+         description = ?,
+         price = ?,
+         image_url = ?,
+         cloudinary_public_id = ?,
+         demo_code = ?
        WHERE id = ?`,
       [
         name,
         description || "",
         Number(price),
         imageUrl,
+        publicId,
         demoCode || "",
         id,
       ]
     );
 
-    // Auto insert demo code if it doesn't exist
+    // Auto insert demo code if not exists
     if (demoCode) {
+
       const trimmedCode = demoCode.trim().toUpperCase();
 
       const [existingCodes] = await pool.query(
@@ -245,11 +276,16 @@ async function updateProduct(req, res) {
       );
 
       if (existingCodes.length === 0) {
+
         await pool.query(
           `INSERT INTO product_codes
           (code, batch_name, product_name)
           VALUES (?, ?, ?)`,
-          [trimmedCode, "Demo Product Code", name]
+          [
+            trimmedCode,
+            "Demo Product Code",
+            name,
+          ]
         );
       }
     }
@@ -262,11 +298,14 @@ async function updateProduct(req, res) {
         description,
         price: Number(price),
         image_url: imageUrl,
+        cloudinary_public_id: publicId,
         demo_code: demoCode || "",
       },
     });
+
   } catch (err) {
     console.error("updateProduct error:", err);
+
     return res.status(500).json({
       message: "Server error while updating product.",
     });
