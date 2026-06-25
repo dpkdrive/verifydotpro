@@ -112,6 +112,7 @@ export default function AdminDashboard() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log("Selected File:", file);
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       setFormError('Only image files are allowed.');
@@ -159,6 +160,8 @@ export default function AdminDashboard() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormError('');
+    console.log("imageFile:", imageFile);
+    console.log(fileInputRef.current.files[0]);
 
     if (!form.name.trim()) return setFormError('Product name is required.');
     if (!form.price || isNaN(Number(form.price)) || Number(form.price) <= 0)
@@ -475,6 +478,7 @@ export default function AdminDashboard() {
                 <input
                   ref={fileInputRef}
                   type="file"
+                  name="image"
                   accept="image/*"
                   style={{ display: 'none' }}
                   onChange={handleImageChange}
