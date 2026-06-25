@@ -1,6 +1,5 @@
 const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
+
 const pool = require('../config/db');
 
 
@@ -140,7 +139,7 @@ async function listProducts(req, res) {
 async function createProduct(req, res) {
   try {
     const { name, description, price, demoCode } = req.body;
-    const imageUrl = req.optimizedFileName;
+    const imageUrl = req.file?.path;
 
     if (!name || !price) {
       return res.status(400).json({ message: 'Product name and price are required.' });
@@ -187,96 +186,122 @@ async function createProduct(req, res) {
 }
 
 // ---- ADMIN: Update Product ----
+// ---- ADMIN: Update Product ----
 async function updateProduct(req, res) {
   try {
     const { id } = req.params;
     const { name, description, price, demoCode } = req.body;
 
     if (!name || !price) {
-      return res.status(400).json({ message: 'Product name and price are required.' });
+      return res.status(400).json({
+        message: "Product name and price are required.",
+      });
     }
 
-    const [existing] = await pool.query('SELECT * FROM products WHERE id = ?', [id]);
+    const [existing] = await pool.query(
+      "SELECT * FROM products WHERE id = ?",
+      [id]
+    );
+
     if (existing.length === 0) {
-      return res.status(404).json({ message: 'Product not found.' });
+      return res.status(404).json({
+        message: "Product not found.",
+      });
     }
 
+    // Keep existing image by default
     let imageUrl = existing[0].image_url;
 
-    // If a new image was uploaded
-    if (req.optimizedFileName) {
-      imageUrl = req.optimizedFileName;
-
-      // Delete old file if it was a local upload
-      const oldPath = existing[0].image_url;
-      if (oldPath && oldPath.startsWith('/uploads/')) {
-        const oldFilePath = path.join(__dirname, '..', oldPath);
-        fs.unlink(oldFilePath, (err) => {
-          if (err) console.error('Failed to delete old image:', err);
-        });
-      }
+    // If a new image was uploaded to Cloudinary
+    if (req.file) {
+      imageUrl = req.file.path;
     }
 
     await pool.query(
-      'UPDATE products SET name = ?, description = ?, price = ?, image_url = ?, demo_code = ? WHERE id = ?',
-      [name, description || '', Number(price), imageUrl, demoCode || '', id]
+      `UPDATE products
+       SET name = ?, description = ?, price = ?, image_url = ?, demo_code = ?
+       WHERE id = ?`,
+      [
+        name,
+        description || "",
+        Number(price),
+        imageUrl,
+        demoCode || "",
+        id,
+      ]
     );
 
-    // If demo code is set, auto-insert into product_codes if it doesn't already exist
+    // Auto insert demo code if it doesn't exist
     if (demoCode) {
       const trimmedCode = demoCode.trim().toUpperCase();
-      const [existingCodes] = await pool.query('SELECT id FROM product_codes WHERE code = ?', [trimmedCode]);
+
+      const [existingCodes] = await pool.query(
+        "SELECT id FROM product_codes WHERE code = ?",
+        [trimmedCode]
+      );
+
       if (existingCodes.length === 0) {
         await pool.query(
-          'INSERT INTO product_codes (code, batch_name, product_name) VALUES (?, ?, ?)',
-          [trimmedCode, 'Demo Product Code', name]
+          `INSERT INTO product_codes
+          (code, batch_name, product_name)
+          VALUES (?, ?, ?)`,
+          [trimmedCode, "Demo Product Code", name]
         );
       }
     }
 
     return res.json({
-      message: 'Product updated successfully.',
+      message: "Product updated successfully.",
       product: {
         id: Number(id),
         name,
         description,
         price: Number(price),
         image_url: imageUrl,
-        demo_code: demoCode || ''
-      }
+        demo_code: demoCode || "",
+      },
     });
   } catch (err) {
-    console.error('updateProduct error:', err);
-    return res.status(500).json({ message: 'Server error while updating product.' });
+    console.error("updateProduct error:", err);
+    return res.status(500).json({
+      message: "Server error while updating product.",
+    });
   }
 }
 
+// ---- ADMIN: Delete Product ----
 // ---- ADMIN: Delete Product ----
 async function deleteProduct(req, res) {
   try {
     const { id } = req.params;
 
-    const [existing] = await pool.query('SELECT * FROM products WHERE id = ?', [id]);
+    const [existing] = await pool.query(
+      "SELECT * FROM products WHERE id = ?",
+      [id]
+    );
+
     if (existing.length === 0) {
-      return res.status(404).json({ message: 'Product not found.' });
-    }
-
-    const imageUrl = existing[0].image_url;
-
-    // Delete image file from filesystem if it exists
-    if (imageUrl && imageUrl.startsWith('/uploads/')) {
-      const filePath = path.join(__dirname, '..', imageUrl);
-      fs.unlink(filePath, (err) => {
-        if (err) console.error('Failed to delete image:', err);
+      return res.status(404).json({
+        message: "Product not found.",
       });
     }
 
-    await pool.query('DELETE FROM products WHERE id = ?', [id]);
+    // Delete product from database
+    await pool.query(
+      "DELETE FROM products WHERE id = ?",
+      [id]
+    );
 
-    return res.json({ message: 'Product deleted successfully.' });
+    return res.json({
+      message: "Product deleted successfully.",
+    });
+
   } catch (err) {
-    console.error('deleteProduct error:', err);
-    return res.status(500).json({ message: 'Server error while deleting product.' });
+    console.error("deleteProduct error:", err);
+
+    return res.status(500).json({
+      message: "Server error while deleting product.",
+    });
   }
 }
 
