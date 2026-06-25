@@ -1,16 +1,35 @@
-import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const token = localStorage.getItem('adminToken');
-  const adminName = localStorage.getItem('adminName');
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const token = localStorage.getItem("adminToken");
+  const adminName = localStorage.getItem("adminName");
+
+  const navItems = [
+    {
+      name: 'Home',
+      path: '/'
+    },
+    {
+      name: "Verify Authenticity",
+      path: "/verify",
+    },
+    {
+      name: "Our Products",
+      path: "/products",
+    },
+  ];
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminName');
-    navigate('/admin/login');
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminName");
+    navigate("/admin/login");
+    setIsOpen(false);
   };
 
   const isActive = (path) => location.pathname === path;
@@ -18,27 +37,67 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-brand">
-          <span className="brand-shield">🛡️</span> VerifyPro
+
+        {/* Logo */}
+        <Link
+          to="/"
+          className="navbar-brand"
+          onClick={() => setIsOpen(false)}
+        >
+          <span className="brand-shield">🛡️</span>
+          VerifyPro
         </Link>
-        <div className="navbar-links">
-          <Link to="/" className={`navbar-link ${isActive('/') ? 'active' : ''}`}>
-            Verify Authenticity
-          </Link>
-          <Link to="/products" className={`navbar-link ${isActive('/products') ? 'active' : ''}`}>
-            Our Products
-          </Link>
+
+        {/* Mobile Toggle */}
+        <button
+          className="navbar-toggle"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className={isOpen ? "bar active" : "bar"}></span>
+          <span className={isOpen ? "bar active" : "bar"}></span>
+          <span className={isOpen ? "bar active" : "bar"}></span>
+        </button>
+
+        {/* Navigation */}
+        <div className={`navbar-links ${isOpen ? "open" : ""}`}>
+
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              onClick={() => setIsOpen(false)}
+              className={`navbar-link ${isActive(item.path) ? "active" : ""
+                }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+
           {token ? (
-            <div className="navbar-admin-section">
-              <Link to="/admin/dashboard" className={`navbar-link ${isActive('/admin/dashboard') ? 'active' : ''}`}>
+            <>
+              <Link
+                to="/admin/dashboard"
+                onClick={() => setIsOpen(false)}
+                className={`navbar-link ${isActive("/admin/dashboard") ? "active" : ""
+                  }`}
+              >
                 Dashboard ({adminName})
               </Link>
-              <button onClick={handleLogout} className="navbar-btn-logout">
+
+              <button
+                className="navbar-btn-logout"
+                onClick={handleLogout}
+              >
                 Logout
               </button>
-            </div>
+            </>
           ) : (
-            <Link to="/admin/login" className={`navbar-link ${isActive('/admin/login') ? 'active' : ''}`}>
+            <Link
+              to="/admin/login"
+              onClick={() => setIsOpen(false)}
+              className={`navbar-link ${isActive("/admin/login") ? "active" : ""
+                }`}
+            >
               Admin Login
             </Link>
           )}
