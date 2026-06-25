@@ -1,8 +1,7 @@
 const crypto = require('crypto');
 
 const pool = require('../config/db');
-const cloudinary = require('cloudinary').v2;
-
+const cloudinary = require("../config/cloudinary");
 
 function generateCode() {
   // e.g. "A1B2-C3D4-E5F6"
@@ -275,7 +274,6 @@ async function updateProduct(req, res) {
 }
 
 // ---- ADMIN: Delete Product ----
-const cloudinary = require("../config/cloudinary");
 
 async function deleteProduct(req, res) {
   try {
