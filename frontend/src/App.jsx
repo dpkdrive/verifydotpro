@@ -7,7 +7,7 @@ import AdminLogin from './pages/AdminLogin.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import Home from './pages/Home.jsx';
 import FooterBottom from './components/FooterBottom.jsx';
-
+import AdminProfile from "./pages/AdminProfile";
 
 function RequireAuth({ children }) {
   const token = localStorage.getItem('adminToken');
@@ -32,8 +32,14 @@ export default function App() {
             </RequireAuth>
           }
         />
-
-
+        <Route
+          path="/admin/profile"
+          element={
+            <RequireAuth>
+              <AdminProfile />
+            </RequireAuth>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <FooterBottom />
