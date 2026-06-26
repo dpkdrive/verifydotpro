@@ -1,12 +1,37 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { registerAdmin, loginAdmin, getProfile } = require('../controllers/authController');
-const requireAdminAuth = require('../middleware/auth');
 
-// One-time use to create your first admin — remove or protect this route after setup!
-router.post('/register', registerAdmin);
+const {
+    registerAdmin,
+    loginAdmin,
+    getProfile,
+    updateProfile,
+    changePassword,
+} = require("../controllers/authController");
 
-router.post('/login', loginAdmin);
-router.get('/me', requireAdminAuth, getProfile);
+const requireAdminAuth = require("../middleware/auth");
+
+// ===============================
+// Public Routes
+// ===============================
+
+// One-time use to create your first admin
+router.post("/register", registerAdmin);
+
+// Login
+router.post("/login", loginAdmin);
+
+// ===============================
+// Protected Routes
+// ===============================
+
+// Get Logged-in Admin Profile
+router.get("/me", requireAdminAuth, getProfile);
+
+// Update Name & Email
+router.put("/profile", requireAdminAuth, updateProfile);
+
+// Change Password
+router.put("/change-password", requireAdminAuth, changePassword);
 
 module.exports = router;

@@ -19,13 +19,13 @@ const jwt = require('jsonwebtoken');
 // }
 
 function requireAdminAuth(req, res, next) {
-  console.log("============== AUTH ==============");
-  console.log("Authorization Header:", req.headers.authorization);
+  // console.log("============== AUTH ==============");
+  // console.log("Authorization Header:", req.headers.authorization);
 
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    console.log("No Bearer Token");
+    // console.log("No Bearer Token");
     return res.status(401).json({
       message: "No token provided. Access denied.",
     });

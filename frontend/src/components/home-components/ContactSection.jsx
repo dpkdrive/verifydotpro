@@ -45,7 +45,7 @@ export default function ContactSection() {
                             <div>
                                 <h4 className="font-semibold text-white">Email</h4>
                                 <p className="text-slate-400">
-                                    support@verifypro.com
+                                    support@myodrol.com
                                 </p>
                             </div>
                         </div>

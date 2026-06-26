@@ -157,4 +157,148 @@ async function getProfile(req, res) {
   return res.json({ admin: req.admin });
 }
 
-module.exports = { registerAdmin, loginAdmin, getProfile };
+async function updateProfile(req, res) {
+  try {
+
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({
+        message: "Name and email are required.",
+      });
+    }
+
+    // Check duplicate email
+    const [existing] = await pool.query(
+      "SELECT id FROM admins WHERE email = ? AND id != ?",
+      [email, req.admin.id]
+    );
+
+    if (existing.length > 0) {
+      return res.status(409).json({
+        message: "Email already exists.",
+      });
+    }
+
+    await pool.query(
+      "UPDATE admins SET name = ?, email = ? WHERE id = ?",
+      [name, email, req.admin.id]
+    );
+
+    // Generate new JWT
+    const token = jwt.sign(
+      {
+        id: req.admin.id,
+        name,
+        email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn:
+          process.env.JWT_EXPIRES_IN || "8h",
+      }
+    );
+
+    return res.json({
+      message: "Profile updated successfully.",
+      token,
+      admin: {
+        id: req.admin.id,
+        name,
+        email,
+      },
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    return res.status(500).json({
+      message: "Server error.",
+    });
+  }
+}
+
+async function changePassword(req, res) {
+
+  try {
+
+    const {
+      currentPassword,
+      newPassword,
+    } = req.body;
+
+    if (
+      !currentPassword ||
+      !newPassword
+    ) {
+      return res.status(400).json({
+        message:
+          "Current and new password are required.",
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 8 characters.",
+      });
+    }
+
+    const [rows] = await pool.query(
+      "SELECT * FROM admins WHERE id = ?",
+      [req.admin.id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({
+        message: "Admin not found.",
+      });
+    }
+
+    const admin = rows[0];
+
+    const match =
+      await bcrypt.compare(
+        currentPassword,
+        admin.password
+      );
+
+    if (!match) {
+
+      return res.status(401).json({
+        message:
+          "Current password is incorrect.",
+      });
+
+    }
+
+    const hashed =
+      await bcrypt.hash(
+        newPassword,
+        12
+      );
+
+    await pool.query(
+      "UPDATE admins SET password = ? WHERE id = ?",
+      [hashed, req.admin.id]
+    );
+
+    return res.json({
+      message:
+        "Password updated successfully.",
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    return res.status(500).json({
+      message: "Server error.",
+    });
+
+  }
+
+}
+
+module.exports = { registerAdmin, loginAdmin, getProfile, updateProfile, changePassword };

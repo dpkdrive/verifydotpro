@@ -27,10 +27,10 @@ async function seed() {
       [DEFAULT_NAME, DEFAULT_EMAIL, hashedPassword]
     );
 
-    console.log('Default admin created successfully:');
-    console.log(`  Email:    ${DEFAULT_EMAIL}`);
-    console.log(`  Password: ${DEFAULT_PASSWORD}`);
-    console.log('IMPORTANT: Log in and change this password immediately, especially in production.');
+    // console.log('Default admin created successfully:');
+    // console.log(`  Email:    ${DEFAULT_EMAIL}`);
+    // console.log(`  Password: ${DEFAULT_PASSWORD}`);
+    // console.log('IMPORTANT: Log in and change this password immediately, especially in production.');
     process.exit(0);
   } catch (err) {
     console.error('Seeding failed:', err);

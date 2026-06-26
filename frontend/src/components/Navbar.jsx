@@ -45,7 +45,7 @@ export default function Navbar() {
           onClick={() => setIsOpen(false)}
         >
           <span className="brand-shield">🛡️</span>
-          VerifyPro
+          MYODROL
         </Link>
 
         {/* Mobile Toggle */}
