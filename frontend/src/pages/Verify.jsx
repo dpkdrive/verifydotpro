@@ -39,46 +39,140 @@ export default function Verify() {
   };
 
   return (
-    <div className="page">
-      <div className="card">
-        <h1>Check Authenticity</h1>
-        <p className="muted">Verify your product is genuine</p>
+    <div className="min-h-screen bg-black py-16 px-4">
+      <div className="mx-auto max-w-2xl">
 
-        <form onSubmit={handleSubmit}>
-          <label>Full Name</label>
-          <input name="fullName" value={form.fullName} onChange={handleChange} required />
+        {/* Card */}
+        <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 shadow-2xl backdrop-blur-sm">
 
-          <label>Email Address</label>
-          <input type="email" name="email" value={form.email} onChange={handleChange} required />
+          {/* Header */}
+          <div className="border-b border-slate-800 bg-gradient-to-r from-red-950/60 to-orange-950/40 p-8 text-center">
 
-          <label>Phone Number</label>
-          <input name="phone" value={form.phone} onChange={handleChange} required />
+            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-3xl shadow-lg">
+              🛡️
+            </div>
 
-          <label>Product Code</label>
-          <input
-            name="productCode"
-            value={form.productCode}
-            onChange={handleChange}
-            placeholder="Located on the product packaging"
-            required
-          />
+            <h1 className="text-3xl font-bold text-white">
+              Check Authenticity
+            </h1>
 
-          <button type="submit" disabled={loading}>
-            {loading ? 'Verifying…' : 'Verify Product →'}
-          </button>
-        </form>
+            <p className="mt-3 text-slate-400">
+              Verify your product is genuine using the unique verification code.
+            </p>
 
-        {error && <div className="error">{error}</div>}
-
-        {result && (
-          <div className={`result ${result.status || ''}`}>
-            {result.message}
           </div>
-        )}
 
-        <p className="muted" style={{ marginTop: 24, textAlign: 'center' }}>
-          <a className="link" href="/admin/login">Admin Login</a>
-        </p>
+          {/* Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6 p-8"
+          >
+
+            {/* Full Name */}
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Full Name
+              </label>
+
+              <input
+                name="fullName"
+                value={form.fullName}
+                onChange={handleChange}
+                required
+                placeholder="Enter your full name"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+              />
+            </div>
+
+            {/* Email */}
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                placeholder="Enter your email address"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+              />
+            </div>
+
+            {/* Phone */}
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Phone Number
+              </label>
+
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                required
+                placeholder="Enter your phone number"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+              />
+            </div>
+
+            {/* Product Code */}
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Product Code
+              </label>
+
+              <input
+                name="productCode"
+                value={form.productCode}
+                onChange={handleChange}
+                required
+                placeholder="Located on the product packaging"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+              />
+            </div>
+
+            {/* Button */}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-gradient-to-r from-red-600 to-orange-500 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Verifying..." : "Verify Product →"}
+            </button>
+
+          </form>
+
+          {/* Error */}
+
+          {error && (
+            <div className="mx-8 mb-6 rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-400">
+              {error}
+            </div>
+          )}
+
+          {/* Result */}
+
+          {result && (
+            <div
+              className={`mx-8 mb-6 rounded-xl border px-5 py-4 font-medium ${result.status === "success"
+                ? "border-green-500/20 bg-green-500/10 text-green-400"
+                : result.status === "warning"
+                  ? "border-yellow-500/20 bg-yellow-500/10 text-yellow-400"
+                  : "border-red-500/20 bg-red-500/10 text-red-400"
+                }`}
+            >
+              {result.message}
+            </div>
+          )}
+
+        </div>
       </div>
     </div>
   );

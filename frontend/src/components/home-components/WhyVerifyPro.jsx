@@ -57,9 +57,9 @@ export default function WhyVerifyPro() {
                 })}
             </div>
 
-            <Link to="/products" className="mt-10 rounded-xl border border-red-500 px-8 py-3 font-semibold text-white transition-all hover:bg-red-600">
+            {/* <Link to="/products" className="mt-10 rounded-xl border border-red-500 px-8 py-3 font-semibold text-white transition-all hover:bg-red-600">
                 Verify Products
-            </Link>
+            </Link> */}
         </div>
 
         {/* Right Image */}
