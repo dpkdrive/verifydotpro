@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-import "./AdminProfile.css";
+
+import {
+
+    Lock,
+    Eye,
+    EyeOff,
+
+} from "lucide-react";
 
 export default function AdminProfile() {
 
@@ -134,28 +141,17 @@ export default function AdminProfile() {
     // ------------------------------------
 
     const handleProfileSubmit = async (e) => {
-
         e.preventDefault();
-
         setLoading(true);
-
         setMessage("");
-
         setError("");
-
         if (profile.name.trim().length < 2) {
-
             setError("Name is too short.");
-
             setLoading(false);
-
             return;
-
         }
 
-        const emailRegex =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(profile.email)) {
 
             setError("Enter a valid email.");
@@ -165,7 +161,6 @@ export default function AdminProfile() {
             return;
 
         }
-
         try {
 
             const res = await api.put(
@@ -295,72 +290,61 @@ export default function AdminProfile() {
     };
 
     return (
-        <>
-            <div className="profile-page">
+        <div className="min-h-screen bg-slate-950 py-10 px-4">
+            <div className="mx-auto max-w-6xl">
 
-                <div className="profile-container">
+                {/* ================= Header ================= */}
+                <div className="mb-8 rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-lg">
+                    <h2 className="text-3xl font-bold text-white">
+                        Account Settings
+                    </h2>
 
-                    <div className="profile-header">
+                    <p className="mt-2 text-slate-400">
+                        Manage your profile information and account security.
+                    </p>
+                </div>
 
-                        <h2>
+                {/* ================= Success ================= */}
 
-                            Account Settings
-
-                        </h2>
-
-                        <p>
-
-                            Manage your profile information
-                            and account security.
-
-                        </p>
-
+                {message && (
+                    <div className="mb-6 rounded-xl border border-green-500/20 bg-green-500/10 px-5 py-4 text-green-400">
+                        {message}
                     </div>
+                )}
 
+                {/* ================= Error ================= */}
 
+                {error && (
+                    <div className="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-red-400">
+                        {error}
+                    </div>
+                )}
 
-                    {message && (
+                {/* ================= Grid ================= */}
 
-                        <div className="success-box">
+                <div className="grid gap-8 lg:grid-cols-2">
 
-                            {message}
+                    {/* =====================================================
+                    PROFILE INFORMATION
+        ====================================================== */}
 
-                        </div>
+                    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-xl">
 
-                    )}
-
-
-
-                    {error && (
-
-                        <div className="error-box">
-
-                            {error}
-
-                        </div>
-
-                    )}
-
-
-
-                    {/* ======================================
-
-                    PROFILE FORM
-
-                ====================================== */}
-
-                    <div className="profile-card">
-
-                        <h3>
-
+                        <h3 className="mb-8 text-2xl font-bold text-white">
                             👤 Profile Information
-
                         </h3>
 
-                        <form onSubmit={handleProfileSubmit}>
+                        <form
+                            onSubmit={handleProfileSubmit}
+                            className="space-y-6"
+                        >
 
-                            <div className="form-group">
-                                <label>Full Name</label>
+                            {/* Full Name */}
+
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-slate-300">
+                                    Full Name
+                                </label>
 
                                 <input
                                     type="text"
@@ -374,11 +358,16 @@ export default function AdminProfile() {
                                         })
                                     }
                                     placeholder="Enter your name"
+                                    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 disabled:opacity-50"
                                 />
                             </div>
 
-                            <div className="form-group">
-                                <label>Email Address</label>
+                            {/* Email */}
+
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-slate-300">
+                                    Email Address
+                                </label>
 
                                 <input
                                     type="email"
@@ -392,190 +381,203 @@ export default function AdminProfile() {
                                         })
                                     }
                                     placeholder="Enter your email"
+                                    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white placeholder:text-slate-500 outline-none transition-all duration-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 disabled:opacity-50"
                                 />
                             </div>
 
+                            {/* Button */}
+
                             <button
-                                className="btn-primary"
+                                type="submit"
                                 disabled={loading}
+                                className="w-full rounded-xl bg-gradient-to-r from-red-600 to-orange-500 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/20 disabled:cursor-not-allowed disabled:opacity-60"
                             >
-                                {loading
-                                    ? "Updating..."
-                                    : "Update Profile"}
+                                {loading ? "Updating..." : "Update Profile"}
                             </button>
 
                         </form>
 
                     </div>
 
+                    {/* =====================================================
+                  PASSWORD CARD
+            Step-2 me isko Tailwind me convert karenge
+        ====================================================== */}
+
+                    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-xl flex items-center justify-center">
+
+                        <p className="text-slate-500">
+                            Password Section (Step 2)
+                        </p>
+
+                    </div>
 
 
+                    {/* =====================================================
+                CHANGE PASSWORD
+===================================================== */}
 
+                    <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-xl">
 
-                    {/* ==========================
-                        PASSWORD CARD
-                =========================== */}
+                        <div className="mb-8 flex items-center gap-3">
 
-                    <div className="profile-card">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-red-600 to-orange-500">
 
-                        <h3>
+                                <Lock size={22} className="text-white" />
 
-                            🔒 Change Password
+                            </div>
 
-                        </h3>
+                            <div>
 
-                        <form onSubmit={handlePasswordSubmit}>
+                                <h3 className="text-2xl font-bold text-white">
 
-                            <div className="form-group">
+                                    Change Password
 
-                                <label>
+                                </h3>
+
+                                <p className="text-sm text-slate-400">
+
+                                    Update your account password securely.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <form
+                            onSubmit={handlePasswordSubmit}
+                            className="space-y-6"
+                        >
+
+                            {/* Current Password */}
+
+                            <div>
+
+                                <label className="mb-2 block text-sm font-medium text-slate-300">
 
                                     Current Password
 
                                 </label>
 
-                                <div className="password-wrapper">
+                                <div className="relative">
 
                                     <input
-
                                         type={
                                             showPassword.current
                                                 ? "text"
                                                 : "password"
                                         }
-
                                         required
-
                                         disabled={loading}
-
-                                        value={
-                                            password.currentPassword
-                                        }
-
+                                        value={password.currentPassword}
                                         onChange={(e) =>
                                             setPassword({
                                                 ...password,
-                                                currentPassword:
-                                                    e.target.value,
+                                                currentPassword: e.target.value,
                                             })
                                         }
-
                                         placeholder="Current Password"
-
+                                        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 pr-12 text-white placeholder:text-slate-500 outline-none transition-all focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                                     />
 
-                                    <span
-
-                                        className="eye-btn"
-
+                                    <button
+                                        type="button"
                                         onClick={() =>
                                             setShowPassword({
                                                 ...showPassword,
                                                 current: !showPassword.current,
                                             })
                                         }
-
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
                                     >
 
-                                        {showPassword.current
-                                            ? "🙈"
-                                            : "👁"}
+                                        {showPassword.current ? (
+                                            <EyeOff size={20} />
+                                        ) : (
+                                            <Eye size={20} />
+                                        )}
 
-                                    </span>
+                                    </button>
 
                                 </div>
 
                             </div>
 
+                            {/* New Password */}
 
+                            <div>
 
-
-
-                            <div className="form-group">
-
-                                <label>
+                                <label className="mb-2 block text-sm font-medium text-slate-300">
 
                                     New Password
 
                                 </label>
 
-                                <div className="password-wrapper">
+                                <div className="relative">
 
                                     <input
-
                                         type={
                                             showPassword.next
                                                 ? "text"
                                                 : "password"
                                         }
-
                                         required
-
                                         disabled={loading}
-
                                         value={password.newPassword}
-
                                         onChange={(e) => {
 
                                             setPassword({
-
                                                 ...password,
-
-                                                newPassword:
-                                                    e.target.value,
-
+                                                newPassword: e.target.value,
                                             });
 
-                                            checkStrength(
-                                                e.target.value
-                                            );
+                                            checkStrength(e.target.value);
 
                                         }}
-
                                         placeholder="New Password"
-
+                                        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 pr-12 text-white placeholder:text-slate-500 outline-none transition-all focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                                     />
 
-                                    <span
-
-                                        className="eye-btn"
-
+                                    <button
+                                        type="button"
                                         onClick={() =>
                                             setShowPassword({
-
                                                 ...showPassword,
-
-                                                next:
-                                                    !showPassword.next,
-
+                                                next: !showPassword.next,
                                             })
                                         }
-
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
                                     >
 
-                                        {showPassword.next
-                                            ? "🙈"
-                                            : "👁"}
+                                        {showPassword.next ? (
+                                            <EyeOff size={20} />
+                                        ) : (
+                                            <Eye size={20} />
+                                        )}
 
-                                    </span>
+                                    </button>
 
                                 </div>
 
                             </div>
 
+                            {/* Password Strength */}
 
+                            {password.newPassword && (
 
-
-
-                            {
-
-                                password.newPassword &&
-
-                                <div className={`strength ${passwordStrength.toLowerCase()}`}>
+                                <div
+                                    className={`rounded-xl border px-4 py-3 text-sm font-medium ${passwordStrength === "Strong"
+                                        ? "border-green-500/20 bg-green-500/10 text-green-400"
+                                        : passwordStrength === "Medium"
+                                            ? "border-yellow-500/20 bg-yellow-500/10 text-yellow-400"
+                                            : "border-red-500/20 bg-red-500/10 text-red-400"
+                                        }`}
+                                >
 
                                     Password Strength :
 
-                                    <strong>
+                                    <strong className="ml-2">
 
                                         {passwordStrength}
 
@@ -583,127 +585,91 @@ export default function AdminProfile() {
 
                                 </div>
 
-                            }
+                            )}
 
+                            {/* Confirm Password */}
 
+                            <div>
 
-
-
-                            <div className="form-group">
-
-                                <label>
+                                <label className="mb-2 block text-sm font-medium text-slate-300">
 
                                     Confirm Password
 
                                 </label>
 
-                                <div className="password-wrapper">
+                                <div className="relative">
 
                                     <input
-
                                         type={
                                             showPassword.confirm
                                                 ? "text"
                                                 : "password"
                                         }
-
                                         required
-
                                         disabled={loading}
-
-                                        value={
-                                            password.confirmPassword
-                                        }
-
+                                        value={password.confirmPassword}
                                         onChange={(e) =>
                                             setPassword({
                                                 ...password,
-                                                confirmPassword:
-                                                    e.target.value,
+                                                confirmPassword: e.target.value,
                                             })
                                         }
-
                                         placeholder="Confirm Password"
-
+                                        className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 pr-12 text-white placeholder:text-slate-500 outline-none transition-all focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                                     />
 
-                                    <span
-
-                                        className="eye-btn"
-
+                                    <button
+                                        type="button"
                                         onClick={() =>
                                             setShowPassword({
                                                 ...showPassword,
-                                                confirm:
-                                                    !showPassword.confirm,
+                                                confirm: !showPassword.confirm,
                                             })
                                         }
-
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
                                     >
 
-                                        {showPassword.confirm
-                                            ? "🙈"
-                                            : "👁"}
+                                        {showPassword.confirm ? (
+                                            <EyeOff size={20} />
+                                        ) : (
+                                            <Eye size={20} />
+                                        )}
 
-                                    </span>
+                                    </button>
 
                                 </div>
 
                             </div>
 
+                            {/* Password Match */}
 
-
-
-
-                            {
-
-                                password.confirmPassword &&
+                            {password.confirmPassword && (
 
                                 <div
-                                    className={
-                                        password.newPassword ===
-                                            password.confirmPassword
-                                            ? "match success-text"
-                                            : "match error-text"
-                                    }
+                                    className={`rounded-xl border px-4 py-3 text-sm font-medium ${password.newPassword === password.confirmPassword
+                                        ? "border-green-500/20 bg-green-500/10 text-green-400"
+                                        : "border-red-500/20 bg-red-500/10 text-red-400"
+                                        }`}
                                 >
 
-                                    {
-
-                                        password.newPassword ===
-                                            password.confirmPassword
-
-                                            ? "✔ Password matched"
-
-                                            : "✖ Password does not match"
-
-                                    }
+                                    {password.newPassword ===
+                                        password.confirmPassword
+                                        ? "✔ Password matched"
+                                        : "✖ Password does not match"}
 
                                 </div>
 
-                            }
-
-
-
-
+                            )}
 
                             <button
-
-                                className="btn-primary"
-
+                                type="submit"
                                 disabled={loading}
-
+                                className="w-full rounded-xl bg-gradient-to-r from-red-600 to-orange-500 px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-red-500/20 disabled:cursor-not-allowed disabled:opacity-60"
                             >
 
-                                {
-
-                                    loading
-
-                                        ? "Updating..."
-
-                                        : "Change Password"
-
-                                }
+                                {loading
+                                    ? "Updating..."
+                                    : "Change Password"}
 
                             </button>
 
@@ -714,8 +680,7 @@ export default function AdminProfile() {
                 </div>
 
             </div>
-
-        </>
+        </div>
     );
 }
 
