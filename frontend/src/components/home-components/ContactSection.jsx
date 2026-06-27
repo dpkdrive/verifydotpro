@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 export default function ContactSection() {
-    return (<section className="relative overflow-hidden bg-black py-24">
+    return (<section className="relative overflow-hidden bg-black py-12">
         {/* Background Effects */} <div className="absolute top-0 left-0 h-96 w-96 rounded-full bg-red-600/10 blur-3xl" /> <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-orange-500/10 blur-3xl" />
 
         <div className="container mx-auto px-6">
@@ -96,7 +96,7 @@ export default function ContactSection() {
                     </div>
 
                     {/* CTA Card */}
-                    <div className="mt-10 rounded-2xl border border-red-500/20 bg-gradient-to-r from-red-950/50 to-orange-950/50 p-6">
+                    {/* <div className="mt-10 rounded-2xl border border-red-500/20 bg-gradient-to-r from-red-950/50 to-orange-950/50 p-6">
                         <h4 className="text-lg font-bold text-white">
                             Need Immediate Assistance?
                         </h4>
@@ -105,7 +105,7 @@ export default function ContactSection() {
                             Our verification experts are available to help you secure your
                             products and protect your brand.
                         </p>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Right Side Form */}

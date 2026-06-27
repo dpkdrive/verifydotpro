@@ -27,7 +27,7 @@ export default function WhyVerifyPro() {
         },
     ];
 
-    return (<section className="bg-slate-950 py-24"> <div className="container mx-auto px-6"> <div className="grid items-center gap-16 lg:grid-cols-2">
+    return (<section className="bg-slate-950 pt-12"> <div className="container mx-auto px-6"> <div className="grid items-center gap-16 lg:grid-cols-2">
         {/* Left Content */} <div>
             <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl">
                 <span className="block bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text text-transparent">

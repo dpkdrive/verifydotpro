@@ -35,7 +35,7 @@ export default function AboutSection() {
         },
     ];
 
-    return (<section className="relative overflow-hidden bg-slate-950 py-24">
+    return (<section className="relative overflow-hidden bg-slate-950 pt-12">
         <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-red-600/10 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-orange-500/10 blur-3xl" />
 
