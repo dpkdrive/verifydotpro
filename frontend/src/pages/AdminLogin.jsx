@@ -39,8 +39,8 @@ export default function AdminLogin() {
 
       localStorage.setItem("adminToken", res.data.token);
       localStorage.setItem("adminName", res.data.admin.name);
-      alert("Token Saved");
-      console.log("Saved Token:", localStorage.getItem("adminToken"));
+      // alert("Token Saved");
+      // console.log("Saved Token:", localStorage.getItem("adminToken"));
 
 
       navigate("/admin/dashboard");
