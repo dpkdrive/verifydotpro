@@ -36,7 +36,7 @@ export default function ContactSection() {
                         Get In Touch
                     </h3>
 
-                    <div className="space-y-8  lg:space-y-0 lg:grid lg:grid-cols-2 gap-4">
+                    <div className="space-y-8  flex flex-wrap md:flex-row justify-between   gap-4">
                         <div className="flex gap-4">
                             <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-red-500/10">
                                 <Mail className="text-red-400" size={24} />
@@ -45,7 +45,7 @@ export default function ContactSection() {
                             <div>
                                 <h4 className="font-semibold text-white">Email</h4>
                                 <p className="text-slate-400">
-                                    support@myodrol.com
+                                    support@wolfxlabs.com
                                 </p>
                             </div>
                         </div>
@@ -58,7 +58,7 @@ export default function ContactSection() {
                             <div>
                                 <h4 className="font-semibold text-white">Phone</h4>
                                 <p className="text-slate-400">
-                                    +91 98765 43210
+                                    +91 70114 05007
                                 </p>
                             </div>
                         </div>
@@ -71,7 +71,7 @@ export default function ContactSection() {
                             <div>
                                 <h4 className="font-semibold text-white">Office</h4>
                                 <p className="text-slate-400">
-                                    Mumbai, Maharashtra, India
+                                    New Delhi
                                 </p>
                             </div>
                         </div>
@@ -89,7 +89,7 @@ export default function ContactSection() {
                                     Monday - Saturday
                                 </p>
                                 <p className="text-slate-400">
-                                    9:00 AM - 6:00 PM
+                                    7:00 AM - 10:00 PM
                                 </p>
                             </div>
                         </div>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import api from '../api';
 
+import logoIcon from "../assets/images/logo.png"
+
 export default function Verify() {
   const location = useLocation();
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', productCode: '' });
@@ -46,10 +48,10 @@ export default function Verify() {
         <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 shadow-2xl backdrop-blur-sm">
 
           {/* Header */}
-          <div className="border-b border-slate-800 bg-gradient-to-r from-red-950/60 to-orange-950/40 p-8 text-center">
+          <div className="border-b border-slate-800 bg-gradient-to-r from-red-950/60 to-orange-950/40 p-4 text-center">
 
-            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-3xl shadow-lg">
-              🛡️
+            <div className="mx-auto mb-5 flex  items-center justify-center rounded-full p-2">
+              <img src={logoIcon} alt="" style={{ maxWidth: '100px' }} className='' />
             </div>
 
             <h1 className="text-3xl font-bold text-white">

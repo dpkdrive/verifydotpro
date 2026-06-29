@@ -7,21 +7,21 @@ import "slick-carousel/slick/slick-theme.css";
 
 const slides = [
     {
-        badge: "🛡️ Trusted Authentication",
+        // badge: "🛡️ Trusted Authentication",
         title: "#VERIFY",
         highlight: "REAL.",
         subtitle:
             "Protect your customers from counterfeit products with instant QR-based authentication and real-time verification.",
     },
     {
-        badge: "⚡ Instant Verification",
+        // badge: "⚡ Instant Verification",
         title: "#SCAN",
         highlight: "TRUST.",
         subtitle:
             "Empower buyers with confidence. Detect duplicate, fake, and tampered products within seconds.",
     },
     {
-        badge: "📦 Product Protection",
+        // badge: "📦 Product Protection",
         title: "#SECURE",
         highlight: "EVERYTHING.",
         subtitle:
@@ -57,7 +57,7 @@ const HeroSection = () => {
 
     }, []);
 
-    return (<section className="relative min-h-screen overflow-hidden bg-black">
+    return (<section className="relative min-h-[90%] overflow-hidden bg-black">
         {/* Background Gradient */} <div className="absolute inset-0 bg-gradient-to-br from-black via-red-950 to-black" />
 
         {/* Grid Pattern */}
@@ -79,10 +79,10 @@ const HeroSection = () => {
         <Slider {...sliderSettings}>
             {slides.map((slide, index) => (
                 <div key={index}>
-                    <div className="flex min-h-screen items-center">
-                        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-32 lg:px-16">
+                    <div className="flex min-h-[70%] items-center">
+                        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-8 lg:px-16">
                             <div
-                                className="max-w-4xl transition-all duration-700"
+                                className="max-w-7xl transition-all duration-700"
                                 style={{
                                     opacity: mounted ? 1 : 0,
                                     transform: mounted
@@ -91,9 +91,9 @@ const HeroSection = () => {
                                 }}
                             >
                                 {/* Badge */}
-                                <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-300 backdrop-blur-sm">
+                                {/* <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-300 backdrop-blur-sm">
                                     {slide.badge}
-                                </span>
+                                </span> */}
 
                                 {/* Heading */}
                                 <h1 className="mb-6 text-5xl font-extrabold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl">

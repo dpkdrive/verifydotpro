@@ -69,10 +69,14 @@ export default function Products() {
 
   return (
     <div className="page" style={{ alignItems: 'center' }}>
-
-      Our Premium Products
-      Explore our curated collection of authentic, high-quality products.
-
+      <div className='pb-5 lg:pb-12 text-center'>
+        {/* <h2 class="text-3xl font-bold text-white"></h2> */}
+        <h2 class="mt-6 text-4xl font-extrabold text-white md:text-5xl">
+          <span class="bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text text-transparent">Our Products</span></h2>
+        <p className='mt-4 text-lg text-slate-400'>
+          Our Premium Products
+          Explore our curated collection of authentic, high-quality products.</p>
+      </div>
       {error && <div className="error-banner">{error}</div>}
 
       {!error && products.length === 0 && (
@@ -81,7 +85,7 @@ export default function Products() {
         </div>
       )}
 
-      <div className="products-grid">
+      <div className="products-grid ">
         {products.map((p) => (
           <div key={p.id} className="product-card">
             <div className="product-image-container">

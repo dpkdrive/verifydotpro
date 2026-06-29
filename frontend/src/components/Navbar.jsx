@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import logo from "../assets/images/logo.png"
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [isOpen, setIsOpen] = useState(false);
-
   const token = localStorage.getItem("adminToken");
   const adminName = localStorage.getItem("adminName");
-
   const navItems = [
     {
       name: 'Home',
@@ -24,28 +22,25 @@ export default function Navbar() {
       path: "/products",
     },
   ];
-
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     localStorage.removeItem("adminName");
     navigate("/admin/login");
     setIsOpen(false);
   };
-
   const isActive = (path) => location.pathname === path;
-
   return (
     <nav className="navbar">
       <div className="navbar-container">
-
         {/* Logo */}
         <Link
           to="/"
           className="navbar-brand"
           onClick={() => setIsOpen(false)}
         >
-          <span className="brand-shield">🛡️</span>
-          MYODROL
+
+          <img src={logo} alt="" style={{ maxWidth: "60px" }} />
+
         </Link>
 
         {/* Mobile Toggle */}

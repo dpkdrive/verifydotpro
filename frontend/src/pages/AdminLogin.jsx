@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { ShieldCheck, Mail, Lock } from "lucide-react";
-
+import logoIcon from "../assets/images/logo.png"
 export default function AdminLogin() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -68,6 +68,7 @@ export default function AdminLogin() {
             <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 shadow-lg">
 
               <ShieldCheck className="text-white" size={34} />
+              <img src={logoIcon} alt="" style={{ maxWidth: '100px' }} className='rounded-full ' />
 
             </div>
 
