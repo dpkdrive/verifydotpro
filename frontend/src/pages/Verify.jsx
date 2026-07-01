@@ -48,7 +48,7 @@ export default function Verify() {
         <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 shadow-2xl backdrop-blur-sm">
 
           {/* Header */}
-          <div className="border-b border-slate-800 bg-gradient-to-r from-red-950/60 to-orange-950/40 p-4 text-center">
+          <div className="border-b border-slate-800 bg-black p-4 text-center">
 
             <div className="mx-auto mb-5 flex  items-center justify-center rounded-full p-2">
               <img src={logoIcon} alt="" style={{ maxWidth: '100px' }} className='' />

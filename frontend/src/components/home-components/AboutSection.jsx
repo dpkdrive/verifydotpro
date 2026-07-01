@@ -60,7 +60,7 @@ export default function AboutSection() {
                         performance-focused research, and a commitment to real results.
                     </p>
 
-                    <p className="mt-4 text-slate-500">
+                    <p className="mt-4 text-lg leading-relaxed text-slate-400">
                         Whether you're building strength, improving endurance, or
                         accelerating recovery, our mission is to fuel your journey with
                         products you can trust.
@@ -80,7 +80,7 @@ export default function AboutSection() {
                         return (
                             <div
                                 key={index}
-                                className="group rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm transition-all duration-300 hover:border-red-500/40 hover:bg-slate-900"
+                                className="group rounded-2xl border border-slate-800 bg-black p-6 backdrop-blur-sm transition-all duration-300 hover:border-red-500/40 hover:bg-slate-900"
                             >
                                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-red-600/20 to-orange-500/20">
                                     <Icon className="text-red-400" size={28} />
@@ -100,7 +100,7 @@ export default function AboutSection() {
             </div>
 
             {/* Stats */}
-            <div className="mt-20 grid gap-6 rounded-3xl border border-slate-800 bg-slate-900/50 p-8 md:grid-cols-3">
+            <div className="mt-20 grid gap-6 rounded-3xl border border-slate-800 bg-black p-8 md:grid-cols-3">
                 <div className="text-center">
                     <h3 className="text-4xl font-bold text-white">50K+</h3>
                     <p className="mt-2 text-slate-400">Happy Customers</p>

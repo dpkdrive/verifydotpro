@@ -31,7 +31,7 @@ export default function WhyVerifyPro() {
         {/* Left Content */} <div>
             <h2 className="mt-6 text-4xl font-extrabold text-white md:text-5xl">
                 <span className="block bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text text-transparent">
-                    Why   VerifyPro
+                    Why Wolfx Labs
                 </span>
             </h2>
             <div className="mt-10 space-y-8">

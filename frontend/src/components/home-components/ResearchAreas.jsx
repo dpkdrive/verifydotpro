@@ -98,7 +98,7 @@ export default function ResearchAreas() {
             </div>
 
             {/* Bottom Statement */}
-            <div className="mt-20 rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 to-slate-950 p-10 text-center">
+            <div className="mt-20 rounded-3xl border border-slate-800 bg-black p-10 text-center">
                 <h3 className="text-2xl font-bold text-white">
                     Science-Led. Performance-Focused.
                 </h3>

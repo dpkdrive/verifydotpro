@@ -63,7 +63,7 @@ export default function AdminLogin() {
 
           {/* Header */}
 
-          <div className="border-b border-slate-800 bg-gradient-to-r from-red-950/60 to-orange-950/40 p-8 text-center">
+          <div className="border-b border-slate-800 bg-black p-8 text-center">
 
             <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-orange-500 shadow-lg">
 
