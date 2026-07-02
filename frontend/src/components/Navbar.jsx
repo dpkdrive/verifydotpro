@@ -38,7 +38,6 @@ export default function Navbar() {
           className="navbar-brand"
           onClick={() => setIsOpen(false)}
         >
-
           <img src={logo} alt="" style={{ maxWidth: "60px" }} />
 
         </Link>
