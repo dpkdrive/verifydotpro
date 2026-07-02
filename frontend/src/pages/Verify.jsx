@@ -45,7 +45,7 @@ export default function Verify() {
       <div className="mx-auto max-w-2xl">
 
         {/* Card */}
-        <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60 shadow-2xl backdrop-blur-sm">
+        <div className="overflow-hidden rounded-3xl border border-slate-800 bg-black shadow-2xl backdrop-blur-sm">
 
           {/* Header */}
           <div className="border-b border-slate-800 bg-black p-4 text-center">

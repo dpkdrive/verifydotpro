@@ -290,11 +290,11 @@ export default function AdminProfile() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 py-10 px-4">
+        <div className="min-h-screen bg-black py-10 px-4">
             <div className="mx-auto max-w-6xl">
 
                 {/* ================= Header ================= */}
-                <div className="mb-8 rounded-3xl border border-slate-800 bg-slate-900/60 p-8 shadow-lg">
+                <div className="mb-8 rounded-3xl border border-slate-800 bg-black p-8 shadow-lg">
                     <h2 className="text-3xl font-bold text-white">
                         Account Settings
                     </h2>

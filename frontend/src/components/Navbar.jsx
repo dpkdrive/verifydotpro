@@ -93,7 +93,7 @@ export default function Navbar() {
               className={`navbar-link ${isActive("/admin/login") ? "active" : ""
                 }`}
             >
-              Admin Login
+              {/* Admin Login */}
             </Link>
           )}
         </div>
